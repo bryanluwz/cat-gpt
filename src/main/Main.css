@@ -1,0 +1,149 @@
+.cat-gpt-msgs {
+    width: 100%;
+    height: 80%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: top;
+
+    overflow-y: scroll;
+}
+
+.cat-gpt-msgs::-webkit-scrollbar {
+    display: none;
+}
+
+.cat-gpt-input-container {
+    width: 100%;
+    height: 18%;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: var(--lavender-pastel-4);
+    border-radius: 10px;
+}
+
+/* Messages */
+.cat-gpt-chat-msg-container {
+    width: auto;
+    height: auto;
+
+    margin-bottom: 8px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: top;
+    justify-content: left;
+
+    transition: 0.4s ease;
+}
+
+.cat-gpt-chat-msg-container-user {
+    flex-direction: row-reverse;
+    justify-content: right;
+}
+
+.cat-gpt-chat-msg-img {
+    width: 48px;
+    height: 48px;
+
+    padding: 2px;
+    user-select: none;
+}
+
+.cat-gpt-chat-msg-content {
+    width: auto;
+    max-width: 80%;
+    height: auto;
+
+    padding: 6px 14px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: top;
+    justify-content: center;
+
+    font-family: var(--text-font);
+    font-size: var(--h4-font-size);
+
+    border-radius: 12px;
+
+    background-color: var(--pink-pastel-1);
+
+    overflow-wrap: break-word;
+}
+
+.cat-gpt-chat-msg-content img {
+    width: min(400px, 60vw);
+    max-height: 400px;
+
+    margin: 1% 0%;
+    object-fit: cover;
+
+    border-radius: 10px;
+}
+
+.cat-gpt-chat-msg-content div {
+    width: auto;
+    height: auto;
+
+    font-family: var(--text-font);
+    font-size: var(--h4-font-size);
+}
+
+.cat-gpt-chat-msg-content-user {
+    background-color: var(--yellow-pastel-1);
+}
+
+.cat-gpt-msgs-bottom-padding {
+    margin-bottom: 80px;
+}
+
+/* Input */
+.cat-gpt-input {
+    width: 90%;
+    height: 80%;
+
+    padding: 0px max(16px, 1.3%);
+
+    border: none;
+    outline: transparent;
+    background: transparent;
+
+    font-family: var(--text-font);
+    font-size: var(--h4-font-size);
+
+    resize: none;
+}
+
+.cat-gpt-input::-webkit-scrollbar {
+    display: none;
+}
+
+.cat-gpt-input-submit {
+    width: 50px;
+
+    padding: 1.5%;
+    margin-right: 5px;
+
+    cursor: pointer;
+    text-align: center;
+    color: var((--lavender-pastel-font-1));
+
+    transition: 0.3s ease;
+}
+
+.cat-gpt-input-submit-blocked {
+    cursor: default;
+    color: var(--lavender-pastel-font-grayscale);
+}
+
+@media screen and (max-height: 400px) {
+    .cat-gpt-input-container {
+        height: 50px;
+    }
+}
