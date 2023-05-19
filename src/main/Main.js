@@ -176,7 +176,7 @@ export default class Main extends Component {
 	render() {
 		return (
 			<ContentDisplay
-				backButtonRoute={"https://bryanluwz.github.io/#/fun-stuff"}
+				backButtonRedirect={"https://bryanluwz.github.io/#/fun-stuff"}
 				displayName={Main.displayName}
 				displayClearHistory={true}
 				faIcon={"fa-trash"}
