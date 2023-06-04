@@ -1,8 +1,8 @@
 import { Component, createRef } from "react";
 import { TypeAnimation } from "react-type-animation";
 import axios from "axios";
-import { getCookieValue, removeCookie, setCookieValue } from "../components/utils/cookieMonster";
 import { ContentDisplay } from "../components/others";
+import { getLocalStorageItem, removeLocalStorageItem, setLocalStorageValue } from "../components/utils/localStorageManager";
 
 export default class Main extends Component {
 	constructor(props) {
@@ -33,7 +33,7 @@ export default class Main extends Component {
 
 	componentDidMount() {
 		// Get history of chat
-		const savedChatHistory = getCookieValue("catGPTChatHistory");
+		const savedChatHistory = getLocalStorageItem("catGPTChatHistory");
 		if (savedChatHistory) {
 			this.setState({
 				chatHistory: savedChatHistory,
@@ -50,7 +50,7 @@ export default class Main extends Component {
 					sequence={[message,
 						() => {
 							this.setState({ canUserSend: true });
-							setCookieValue("catGPTChatHistory", chatHistoryToSave);
+							setLocalStorageValue("catGPTChatHistory", chatHistoryToSave);
 						}]}
 					wrapper="div"
 					speed={90}
@@ -117,7 +117,7 @@ export default class Main extends Component {
 			isBotReplyLoading: false
 		}));
 
-		setCookieValue("catGPTChatHistory", chatHistoryToSave);
+		setLocalStorageValue("catGPTChatHistory", chatHistoryToSave);
 	};
 
 	createReply = async (userMessage) => {
@@ -176,7 +176,7 @@ export default class Main extends Component {
 	};
 
 	handleDeleteHistoryButton = () => {
-		removeCookie("catGPTChatHistory");
+		removeLocalStorageItem("catGPTChatHistory");
 
 		const chatHistory = [];
 		const chatHistoryToSave = [];
@@ -189,7 +189,7 @@ export default class Main extends Component {
 				sequence={[message,
 					() => {
 						this.setState({ canUserSend: true });
-						setCookieValue("catGPTChatHistory", chatHistoryToSave);
+						setLocalStorageValue("catGPTChatHistory", chatHistoryToSave);
 					}]}
 				wrapper="div"
 				speed={90}
