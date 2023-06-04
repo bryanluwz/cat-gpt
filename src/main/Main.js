@@ -20,7 +20,9 @@ export default class Main extends Component {
 		this.msgAreaDummyRef = createRef();
 		this.msgAreaRef = createRef();
 
-		this.welcomeMessage = "Meow meow! meow meow meow? meow meow meow! meow meow meow meow - meow meow!";
+		this.welcomeMessage = "Oh, look who decided to grace us with their presence! Since you're here meow, I suppose I can entertain you with my superior feline wit. Try not to disappoint me too much, human. Meow, shall we?";
+
+		// In case there is an error in API call
 		this.textArray = [
 			`Meow. Meow meow meow. Meow, meow meow meow meow, meow. Meow meow, meow meow meow. Meow meow. Meow meow, meow. Meow meow, meow meow. Meow meow meow. Meow meow meow meow. Meow.`,
 			`Meow. Meow meow. Meow - meow meow. Meow meow, meow. Meow meow - meow meow meow. Meow meow. Meow meow - meow. Meow meow meow. Meow meow meow meow. Meow.`,
@@ -83,13 +85,13 @@ export default class Main extends Component {
 			isBotReplyLoading: true
 		}), () => {
 			setTimeout(() => {
-				this.handleMessageReply();
+				this.handleMessageReply(messageContent);
 			}, Math.floor(Math.random() * 500 + 1000));
 		});
 	};
 
-	handleMessageReply = async () => {
-		const { image, message } = await this.createReply();
+	handleMessageReply = async (userMessage) => {
+		const { image, message } = await this.createReply(userMessage);
 
 		const { chatHistory, chatHistoryToSave } = this.state;
 
@@ -118,16 +120,35 @@ export default class Main extends Component {
 		setCookieValue("catGPTChatHistory", chatHistoryToSave);
 	};
 
-	createReply = async () => {
-		function getRandomInt(min, max) {
-			return Math.floor(Math.random() * (max - min) + min);
-		}
+	createReply = async (userMessage) => {
+		// Text generation using flow.multi.tech api
+		var message = null;
 
-		const message = this.textArray[getRandomInt(0, this.textArray.length - 1)];
+		// Hiding API keys is a joke
+		const data = {
+			args: [userMessage],
+			kwargs: {},
+			apiKey: "0391fe65-7745-4450-88c2-567459d90454"
+		};
 
-		// Image / gif (i dont care about your internet bandwidth / mobile data)
+		await fetch('https://prometheus-api.llm.llc/api/workflow/RpK2A9ecIzDoXJebrWjd', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(data)
+		})
+			.then(response => response.json())
+			.then(result => {
+				message = result?.outputs[0];
+			})
+			.catch(error => {
+				console.error(error);
+			});
+
+		// Image / gif ${the number down there} of the time
 		var imageUrl = null;
-		if (Math.random() < 0.8) {
+		if (Math.random() < 0.2) {
 			await axios.get(`https://cataas.com/cat/${Math.random() < 0.7 ? "cute" : "gif"}?json=true`, { timeout: 2000 }).then(
 				response => {
 					imageUrl = `https://cataas.com${response.data.url}`;
@@ -142,6 +163,11 @@ export default class Main extends Component {
 				).catch(e => { console.log("cant gets api.thecatapi.com, gonna gif ups meow"); });
 			});
 		}
+
+		if (!message) {
+			message = this.textArray[Math.floor(Math.random() * this.textArray.length)];
+		}
+
 		return { image: imageUrl, message: message };
 	};
 
